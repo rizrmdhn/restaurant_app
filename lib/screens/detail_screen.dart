@@ -114,50 +114,54 @@ class DetailScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        // rounded border
                         SizedBox(
                           height: 100,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: restaurant.menus.foods.length,
                             itemBuilder: (context, index) {
-                              return Container(
-                                width: 150,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[200],
-                                ),
-                                margin: const EdgeInsets.only(right: 10),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      const Padding(
-                                        padding: EdgeInsets.only(
-                                          left: 15,
-                                          right: 15,
+                              return Expanded(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.grey[200],
+                                  ),
+                                  constraints:
+                                      const BoxConstraints(maxWidth: 150),
+                                  margin: const EdgeInsets.only(right: 10),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Padding(
+                                          padding: EdgeInsets.only(
+                                            left: 15,
+                                            right: 15,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Icon(
+                                                Icons.fastfood,
+                                                size: 50,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Icon(
-                                              Icons.fastfood,
-                                              size: 50,
-                                            ),
-                                          ],
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          restaurant.menus.foods[index].name,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: false,
                                         ),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        restaurant.menus.foods[index].name,
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );
@@ -171,41 +175,45 @@ class DetailScreen extends StatelessWidget {
                             scrollDirection: Axis.horizontal,
                             itemCount: restaurant.menus.drinks.length,
                             itemBuilder: (context, index) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey[200],
-                                ),
-                                width: 150,
-                                margin: const EdgeInsets.only(right: 10),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
-                                      const Padding(
-                                        padding: EdgeInsets.only(
-                                          left: 15,
-                                          right: 15,
+                              return Expanded(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.grey[200],
+                                  ),
+                                  width: 150,
+                                  margin: const EdgeInsets.only(right: 10),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        const Padding(
+                                          padding: EdgeInsets.only(
+                                            left: 15,
+                                            right: 15,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Icon(
+                                                Icons.fastfood,
+                                                size: 50,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Icon(
-                                              Icons.fastfood,
-                                              size: 50,
-                                            ),
-                                          ],
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          restaurant.menus.drinks[index].name,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                          softWrap: false,
                                         ),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        restaurant.menus.drinks[index].name,
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );
