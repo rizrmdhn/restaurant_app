@@ -16,10 +16,19 @@ class DetailScreen extends StatelessWidget {
           return [
             SliverAppBar(
               expandedHeight: 200,
+              pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 background: Image.network(
                   restaurant.pictureId,
                   fit: BoxFit.cover,
+                ),
+                title: Text(
+                  restaurant.name,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.transparent,
+                  ),
                 ),
               ),
             ),
@@ -125,7 +134,6 @@ class DetailScreen extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      // make icon align end
                                       const Padding(
                                         padding: EdgeInsets.only(
                                           left: 15,
@@ -158,29 +166,47 @@ class DetailScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 20),
                         SizedBox(
-                          height: 150,
+                          height: 100,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: restaurant.menus.drinks.length,
                             itemBuilder: (context, index) {
                               return Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.grey[200],
+                                ),
+                                width: 150,
                                 margin: const EdgeInsets.only(right: 10),
-                                child: Column(
-                                  children: [
-                                    const Padding(
-                                      padding: EdgeInsets.only(bottom: 10),
-                                      child: Icon(
-                                        Icons.fastfood,
-                                        size: 50,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsets.only(
+                                          left: 15,
+                                          right: 15,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Icon(
+                                              Icons.fastfood,
+                                              size: 50,
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      restaurant.menus.drinks[index].name,
-                                      style: const TextStyle(
-                                        fontSize: 16,
+                                      const SizedBox(height: 10),
+                                      Text(
+                                        restaurant.menus.drinks[index].name,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               );
                             },
