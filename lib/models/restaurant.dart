@@ -1,15 +1,14 @@
 import 'dart:convert';
-
-import 'package:restaurant_app/models/menu.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class Restaurant {
-  final String id;
-  final String name;
-  final String description;
-  final String pictureId;
-  final String city;
-  final double rating;
-  final Menus menus;
+  String id;
+  String name;
+  String description;
+  String pictureId;
+  String city;
+  double rating;
 
   Restaurant({
     required this.id,
@@ -18,25 +17,59 @@ class Restaurant {
     required this.pictureId,
     required this.city,
     required this.rating,
-    required this.menus,
   });
 
-  factory Restaurant.fromJson(Map<String, dynamic> restaurant) => Restaurant(
-        id: restaurant['id'],
-        name: restaurant['name'],
-        description: restaurant['description'],
-        pictureId: restaurant['pictureId'],
-        city: restaurant['city'],
-        rating: restaurant['rating'].toDouble(),
-        menus: Menus.fromJson(restaurant['menus']),
+  factory Restaurant.fromRawJson(String str) =>
+      Restaurant.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
+        id: json["id"],
+        name: json["name"],
+        description: json["description"],
+        pictureId: json["pictureId"],
+        city: json["city"],
+        rating: json["rating"]?.toDouble(),
       );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "description": description,
+        "pictureId": pictureId,
+        "city": city,
+        "rating": rating,
+      };
 }
 
-List<Restaurant> parseRestaurant(String? json) {
-  if (json == null) {
-    return [];
+class RestaurantModel extends ChangeNotifier {
+  late List<Restaurant> _restaurants;
+  bool _isFetching = false;
+
+  List<Restaurant> get restaurants => _restaurants;
+  bool get isFetching => _isFetching;
+
+  Future<List<Restaurant>> getRestaurant() async {
+    setIsFetching(true);
+    final response =
+        await http.get(Uri.parse('https://restaurant-api.dicoding.dev/list'));
+
+    if (response.statusCode == 200) {
+      final restaurant = jsonDecode(response.body);
+      _restaurants = List<Restaurant>.from(
+          restaurant['restaurants'].map((x) => Restaurant.fromJson(x)));
+      notifyListeners();
+      setIsFetching(false);
+      return _restaurants;
+    } else {
+      setIsFetching(false);
+      throw Exception('Failed to load restaurant');
+    }
   }
 
-  final List parsed = jsonDecode(json)['restaurants'];
-  return parsed.map((json) => Restaurant.fromJson(json)).toList();
+  void setIsFetching(bool fetching) {
+    _isFetching = fetching;
+    notifyListeners();
+  }
 }

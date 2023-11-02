@@ -1,17 +1,18 @@
 import 'dart:convert';
 
-class Drinks {
+class Categories {
   String name;
 
-  Drinks({
+  Categories({
     required this.name,
   });
 
-  factory Drinks.fromRawJson(String str) => Drinks.fromJson(json.decode(str));
+  factory Categories.fromRawJson(String str) =>
+      Categories.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Drinks.fromJson(Map<String, dynamic> json) => Drinks(
+  factory Categories.fromJson(Map<String, dynamic> json) => Categories(
         name: json["name"],
       );
 
