@@ -52,6 +52,7 @@ class RestaurantModel extends ChangeNotifier {
 
   Future<List<Restaurant>> getRestaurant() async {
     setIsFetching(true);
+    notifyListeners();
     final response =
         await http.get(Uri.parse('https://restaurant-api.dicoding.dev/list'));
 
@@ -59,8 +60,28 @@ class RestaurantModel extends ChangeNotifier {
       final restaurant = jsonDecode(response.body);
       _restaurants = List<Restaurant>.from(
           restaurant['restaurants'].map((x) => Restaurant.fromJson(x)));
-      notifyListeners();
       setIsFetching(false);
+      notifyListeners();
+      return _restaurants;
+    } else {
+      setIsFetching(false);
+      throw Exception('Failed to load restaurant');
+    }
+  }
+
+  Future<List<Restaurant>> searchRestaurantByName(String name) async {
+    setIsFetching(true);
+    notifyListeners();
+    final response = await http
+        .get(Uri.parse('https://restaurant-api.dicoding.dev/search?q=$name'));
+
+    if (response.statusCode == 200) {
+      final restaurant = jsonDecode(response.body);
+      _restaurants = List<Restaurant>.from(
+          restaurant['restaurants'].map((x) => Restaurant.fromJson(x)));
+      // add delay to make sure the loading indicator is showing
+      setIsFetching(false);
+      notifyListeners();
       return _restaurants;
     } else {
       setIsFetching(false);

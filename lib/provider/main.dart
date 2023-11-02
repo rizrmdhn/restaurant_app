@@ -21,6 +21,12 @@ class ContextModel extends ChangeNotifier {
     return _detailRestaurantModel.detailRestaurant;
   }
 
+  Future<List<Restaurant>> searchRestaurantByName(String query) async {
+    await _restaurantModel.searchRestaurantByName(query);
+    notifyListeners();
+    return _restaurantModel.restaurants;
+  }
+
   void setIsFetching(bool value) {
     _restaurantModel.setIsFetching(value);
     notifyListeners();

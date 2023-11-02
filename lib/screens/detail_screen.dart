@@ -268,6 +268,114 @@ class DetailScreen extends StatelessWidget {
                               ],
                             ),
                           ),
+                          const SizedBox(height: 20),
+                          // customer Reviews
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Customer Reviews',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                SizedBox(
+                                  height: 125,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: value
+                                        .detailRestaurantModel
+                                        .detailRestaurant
+                                        .customerReviews
+                                        .length,
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: Colors.grey[200],
+                                              ),
+                                              margin: const EdgeInsets.only(
+                                                  right: 10),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    const SizedBox(height: 10),
+                                                    Text(
+                                                      value
+                                                          .detailRestaurantModel
+                                                          .detailRestaurant
+                                                          .customerReviews[
+                                                              index]
+                                                          .name,
+                                                      style: const TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      softWrap: false,
+                                                    ),
+                                                    const SizedBox(height: 5),
+                                                    Flexible(
+                                                      child: Text(
+                                                        value
+                                                            .detailRestaurantModel
+                                                            .detailRestaurant
+                                                            .customerReviews[
+                                                                index]
+                                                            .review,
+                                                        style: const TextStyle(
+                                                          fontSize: 16,
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        softWrap: false,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 20),
+                                                    Flexible(
+                                                      child: Text(
+                                                        value
+                                                            .detailRestaurantModel
+                                                            .detailRestaurant
+                                                            .customerReviews[
+                                                                index]
+                                                            .date,
+                                                        style: const TextStyle(
+                                                          fontSize: 16,
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        softWrap: false,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
