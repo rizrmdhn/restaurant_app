@@ -32,6 +32,7 @@ class RestaurantCard extends StatelessWidget {
             Navigator.pushNamed(
               context,
               DetailScreen.routeName,
+              arguments: restaurant,
             );
           },
           child: Column(

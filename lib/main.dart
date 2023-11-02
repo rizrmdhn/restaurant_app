@@ -1,19 +1,21 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/models/restaurant.dart';
 import 'package:restaurant_app/provider/main.dart';
 import 'package:restaurant_app/screens/detail_screen.dart';
+import 'package:restaurant_app/screens/favorite_screen.dart';
 import 'package:restaurant_app/screens/home_screen.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (context) => ContextModel(),
-    child: const MyApp(),
-  ));
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ContextModel(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -92,7 +94,11 @@ class _MyAppState extends State<MyApp> {
         HomeScreen.routeName: (context) => HomeScreen(
               connectionStatus: _connectionStatus.toString(),
             ),
-        DetailScreen.routeName: (context) => const DetailScreen(),
+        DetailScreen.routeName: (context) => DetailScreen(
+              restaurant:
+                  ModalRoute.of(context)?.settings.arguments as Restaurant,
+            ),
+        FavoriteScreen.routeName: (context) => const FavoriteScreen(),
       },
     );
   }

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/models/restaurant.dart';
 import 'package:restaurant_app/provider/main.dart';
 
 class DetailScreen extends StatelessWidget {
   static const routeName = '/detail';
 
-  const DetailScreen({Key? key}) : super(key: key);
+  final Restaurant restaurant;
+
+  const DetailScreen({Key? key, required this.restaurant}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +24,89 @@ class DetailScreen extends StatelessWidget {
                       expandedHeight: 200,
                       pinned: true,
                       flexibleSpace: FlexibleSpaceBar(
-                        background: Image.network(
-                          'https://restaurant-api.dicoding.dev/images/large/${value.detailRestaurantModel.detailRestaurant.pictureId}',
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) =>
-                              const Center(
-                            child: Icon(
-                              Icons.error,
-                              color: Colors.grey,
+                        // add favorite button in image background
+                        background: Stack(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    'https://restaurant-api.dicoding.dev/images/large/${value.detailRestaurantModel.detailRestaurant.pictureId}',
+                                  ),
+                                  fit: BoxFit.cover,
+                                  onError: (exception, stackTrace) =>
+                                      const Icon(
+                                    Icons.error,
+                                    color: Colors.white,
+                                    size: 50,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
+                            Positioned(
+                              bottom: 0,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: 50,
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                    colors: [
+                                      Colors.black,
+                                      Colors.transparent,
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: 50,
+                                padding: const EdgeInsets.only(
+                                  left: 20,
+                                  right: 20,
+                                  bottom: 10,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                      width: 40,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: Colors.white,
+                                      ),
+                                      child: IconButton(
+                                        // create object restaurant data
+
+                                        onPressed: () {
+                                          value.addFavorite(
+                                            restaurant,
+                                          );
+                                        },
+                                        icon: value.isFavorite(
+                                          value.detailRestaurantModel
+                                              .detailRestaurant.id,
+                                        )
+                                            ? const Icon(
+                                                Icons.favorite,
+                                                color: Colors.red,
+                                              )
+                                            : const Icon(
+                                                Icons.favorite_border,
+                                                color: Colors.red,
+                                              ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         title: Text(
                           value.detailRestaurantModel.detailRestaurant.name,
