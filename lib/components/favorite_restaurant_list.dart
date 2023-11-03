@@ -16,7 +16,10 @@ class FavoriteRestaurantList extends StatelessWidget {
           : ListView.builder(
               itemCount: value.favoriteData.length,
               itemBuilder: (context, index) {
-                final Restaurant restaurant = value.favoriteData[index];
+                // find the restaurant data from the list of restaurants
+                final Restaurant restaurant = value.restaurants.firstWhere(
+                  (element) => element.id == value.favoriteData[index].id,
+                );
                 return RestaurantCard(
                   id: restaurant.id,
                   name: restaurant.name,

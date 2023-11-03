@@ -14,11 +14,6 @@ Future<Database> _initDb() async {
     onCreate: (db, version) async {
       await db.execute('''CREATE TABLE favorite (
             id TEXT PRIMARY KEY,
-            name TEXT,
-            description TEXT,
-            pictureId TEXT,
-            city TEXT,
-            rating DOUBLE
           )''');
     },
     version: 1,

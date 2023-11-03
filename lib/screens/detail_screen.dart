@@ -1,31 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app/models/restaurant.dart';
 import 'package:restaurant_app/provider/restaurant_model.dart';
-import 'package:http/http.dart' as http;
 
 class DetailScreen extends StatelessWidget {
   static const routeName = '/detail';
 
-  final Restaurant restaurant;
-  final Restaurant? restaurantNotification;
-
-  const DetailScreen(
-      {super.key, required this.restaurant, this.restaurantNotification});
+  const DetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    if (restaurantNotification != null) {
-      context.read<RestaurantModel>().getRestaurantDetail(
-            http.Client(),
-            restaurantNotification!.id,
-          );
-    } else {
-      context.read<RestaurantModel>().getRestaurantDetail(
-            http.Client(),
-            restaurant.id,
-          );
-    }
     return Consumer<RestaurantModel>(
       builder: (context, value, child) => value.isFetching
           ? const Center(child: CircularProgressIndicator())
@@ -97,8 +80,9 @@ class DetailScreen extends StatelessWidget {
                                         // create object restaurant data
 
                                         onPressed: () {
+                                          // add favorite data
                                           value.addFavorite(
-                                            restaurant,
+                                            value.detailRestaurant.id,
                                           );
                                         },
                                         icon: value.isFavorite(

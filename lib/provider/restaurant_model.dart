@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/database/main.dart';
 import 'package:restaurant_app/models/detail_restaurant.dart';
+import 'package:restaurant_app/models/favorite_data.dart';
+import 'package:restaurant_app/models/menus.dart';
 import 'package:restaurant_app/models/restaurant.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -10,9 +12,9 @@ class RestaurantModel extends ChangeNotifier {
   List<Restaurant> _restaurants = [];
   bool _isFetching = false;
   late DetailRestaurant _detailRestaurant;
-  final List<Restaurant> _favoriteData = [];
+  final List<FavoriteData> _favoriteData = [];
 
-  List<Restaurant> get favoriteData => _favoriteData;
+  List<FavoriteData> get favoriteData => _favoriteData;
   List<Restaurant> get restaurants => _restaurants;
   bool get isFetching => _isFetching;
   DetailRestaurant get detailRestaurant => _detailRestaurant;
@@ -21,6 +23,23 @@ class RestaurantModel extends ChangeNotifier {
     // initialize detail restaurant
 
     getRestaurant(http.Client());
+    getFavorite();
+    initStateDetilRestaurant();
+  }
+
+  void initStateDetilRestaurant() {
+    _detailRestaurant = DetailRestaurant(
+      id: '',
+      name: '',
+      description: '',
+      city: '',
+      address: '',
+      pictureId: '',
+      categories: [],
+      menus: Menus(foods: [], drinks: []),
+      rating: 0.0,
+      customerReviews: [],
+    );
   }
 
   Future<List<Restaurant>> getRestaurant(http.Client client) async {
@@ -99,22 +118,22 @@ class RestaurantModel extends ChangeNotifier {
     final Database db = await database;
     final List<Map<String, dynamic>> results = await db.query('favorite');
     return _favoriteData.addAll(
-      results.map((res) => Restaurant.fromJson(res)).toList(),
+      results.map((e) => FavoriteData.fromJson(e)).toList(),
     );
   }
 
-  void addFavorite(Restaurant data) async {
-    if (_favoriteData.any((element) => element.id == data.id)) {
-      removeFavorite(data.id);
+  void addFavorite(String id) async {
+    if (isFavorite(id)) {
+      removeFavorite(id);
       return;
     }
     final Database db = await database;
     await db.insert(
       'favorite',
-      data.toJson(),
+      {'id': id},
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    _favoriteData.add(data);
+    _favoriteData.add(FavoriteData(id: id));
     notifyListeners();
   }
 

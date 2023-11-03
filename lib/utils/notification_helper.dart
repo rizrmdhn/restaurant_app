@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:restaurant_app/components/navigation.dart';
 import 'package:restaurant_app/models/restaurant.dart';
+import 'package:restaurant_app/models/restaurant_notifiaction.dart';
+import 'package:restaurant_app/provider/restaurant_model.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:restaurant_app/utils/received_notification.dart';
 
@@ -53,7 +55,7 @@ class NotificationHelper {
   ) async {
     var channelId = "1";
     var channelName = "channel_01";
-    var channelDescription = "dicoding news channel";
+    var channelDescription = "restaurant channel";
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       channelId,
@@ -80,16 +82,20 @@ class NotificationHelper {
       titleNotification,
       titleNews,
       platformChannelSpecifics,
-      payload: json.encode(restaurant.restaurants[randomItem].toJson()),
+      payload: json.encode(
+        restaurant.restaurants[randomItem].toJson(),
+      ),
     );
   }
 
   void configureSelectNotificationSubject(String route) {
+    final RestaurantModel restaurantModel = RestaurantModel();
+    final Navigation navigation = Navigation(restaurantModel);
     selectNotificationSubject.stream.listen(
       (String payload) async {
-        var data = Restaurant.fromJson(json.decode(payload));
+        var data = RestaurantNotification.fromJson(json.decode(payload));
         var restaurantNotification = data;
-        Navigation.intentWithData(route, restaurantNotification);
+        navigation.navigateToDetailScreen(route, restaurantNotification.id);
       },
     );
   }

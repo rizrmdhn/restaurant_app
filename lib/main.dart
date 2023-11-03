@@ -128,12 +128,7 @@ class _MyAppState extends State<MyApp> {
         HomeScreen.routeName: (context) => HomeScreen(
               connectionStatus: _connectionStatus.toString(),
             ),
-        DetailScreen.routeName: (context) => DetailScreen(
-              restaurant:
-                  ModalRoute.of(context)?.settings.arguments as Restaurant,
-              restaurantNotification:
-                  ModalRoute.of(context)?.settings.arguments as Restaurant,
-            ),
+        DetailScreen.routeName: (context) => const DetailScreen(),
         FavoriteScreen.routeName: (context) => const FavoriteScreen(),
         OptionScreen.routeName: (context) => const OptionScreen(),
       },

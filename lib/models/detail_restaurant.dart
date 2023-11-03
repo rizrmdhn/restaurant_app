@@ -42,11 +42,17 @@ class DetailRestaurant {
         address: json["address"],
         pictureId: json["pictureId"],
         categories: List<Categories>.from(
-            json["categories"].map((x) => Categories.fromJson(x))),
+          json["categories"].map(
+            (x) => Categories.fromJson(x),
+          ),
+        ),
         menus: Menus.fromJson(json["menus"]),
         rating: json["rating"]?.toDouble(),
         customerReviews: List<CustomerReview>.from(
-            json["customerReviews"].map((x) => CustomerReview.fromJson(x))),
+          json["customerReviews"].map(
+            (x) => CustomerReview.fromJson(x),
+          ),
+        ),
       );
 
   Map<String, dynamic> toJson() => {
