@@ -20,18 +20,17 @@ class RestaurantModel extends ChangeNotifier {
   RestaurantModel() {
     // initialize detail restaurant
 
-    getRestaurant();
+    getRestaurant(http.Client());
   }
 
-  Future<List<Restaurant>> getRestaurant() async {
+  Future<List<Restaurant>> getRestaurant(http.Client client) async {
     setIsFetching(true);
     final response =
-        await http.get(Uri.parse('https://restaurant-api.dicoding.dev/list'));
+        await client.get(Uri.parse('https://restaurant-api.dicoding.dev/list'));
     notifyListeners();
     if (response.statusCode == 200) {
       final restaurant = jsonDecode(response.body);
-      _restaurants = List<Restaurant>.from(
-          restaurant['restaurants'].map((x) => Restaurant.fromJson(x)));
+      _restaurants = RestaurantResults.fromJson(restaurant).restaurants;
       notifyListeners();
       setIsFetching(false);
       return _restaurants;
@@ -42,9 +41,14 @@ class RestaurantModel extends ChangeNotifier {
     }
   }
 
-  Future<DetailRestaurant?> getRestaurantDetail(String id) async {
+  Future<DetailRestaurant?> getRestaurantDetail(
+    http.Client client,
+    String id,
+  ) async {
+    // check if client is null use http
+
     setIsFetching(true);
-    final response = await http
+    final response = await client
         .get(Uri.parse('https://restaurant-api.dicoding.dev/detail/$id'));
     notifyListeners();
     if (response.statusCode == 200) {
@@ -60,10 +64,11 @@ class RestaurantModel extends ChangeNotifier {
     }
   }
 
-  Future<List<Restaurant>> searchRestaurantByName(String name) async {
+  Future<List<Restaurant>> searchRestaurantByName(
+      http.Client client, String name) async {
     try {
       setIsFetching(true);
-      final response = await http
+      final response = await client
           .get(Uri.parse('https://restaurant-api.dicoding.dev/search?q=$name'));
       notifyListeners();
       if (response.statusCode == 200) {

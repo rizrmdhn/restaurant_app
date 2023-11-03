@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/models/restaurant.dart';
 import 'package:restaurant_app/provider/restaurant_model.dart';
 import 'package:restaurant_app/screens/detail_screen.dart';
+import 'package:http/http.dart' as http;
 
 class RestaurantCard extends StatelessWidget {
   final String id;
@@ -28,7 +29,10 @@ class RestaurantCard extends StatelessWidget {
       builder: (context, value, child) {
         return InkWell(
           onTap: () async {
-            context.read<RestaurantModel>().getRestaurantDetail(id);
+            context.read<RestaurantModel>().getRestaurantDetail(
+                  http.Client(),
+                  id,
+                );
             Navigator.pushNamed(
               context,
               DetailScreen.routeName,

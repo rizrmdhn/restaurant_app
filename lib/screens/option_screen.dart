@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/provider/scheduling_model.dart';
-import 'package:restaurant_app/utils/date_time_helper.dart';
 
 class OptionScreen extends StatelessWidget {
   static const routeName = '/option';
@@ -27,11 +26,6 @@ class OptionScreen extends StatelessWidget {
                 provider.scheduledRestaurant(value);
               },
             ),
-            IconButton(
-                onPressed: () async {
-                  DateTimeHelper.format();
-                },
-                icon: Icon(Icons.notifications)),
           ],
         ),
       ),

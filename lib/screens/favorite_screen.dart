@@ -4,7 +4,7 @@ import 'package:restaurant_app/components/favorite_restaurant_list.dart';
 class FavoriteScreen extends StatelessWidget {
   static const routeName = '/favorite';
 
-  const FavoriteScreen({Key? key}) : super(key: key);
+  const FavoriteScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

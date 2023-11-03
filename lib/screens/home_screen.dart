@@ -5,6 +5,7 @@ import 'package:restaurant_app/provider/restaurant_model.dart';
 import 'package:restaurant_app/screens/favorite_screen.dart';
 import 'package:restaurant_app/screens/option_screen.dart';
 import 'package:restaurant_app/utils/debouncer.dart';
+import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -108,14 +109,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               // search restaurant by name
                               Provider.of<RestaurantModel>(context,
                                       listen: false)
-                                  .searchRestaurantByName(value);
+                                  .searchRestaurantByName(http.Client(), value);
                             } else {
                               // add timeout to prevent too many request
                               debouncer.run(() {
                                 // search restaurant by name
                                 Provider.of<RestaurantModel>(context,
                                         listen: false)
-                                    .searchRestaurantByName(value);
+                                    .searchRestaurantByName(
+                                        http.Client(), value);
                               });
                             }
                           },
@@ -147,7 +149,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 // search restaurant by name
                                 Provider.of<RestaurantModel>(context,
                                         listen: false)
-                                    .searchRestaurantByName(name);
+                                    .searchRestaurantByName(
+                                  http.Client(),
+                                  name,
+                                );
                               },
                               icon: const Icon(Icons.search),
                             ),
