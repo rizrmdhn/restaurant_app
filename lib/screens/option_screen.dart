@@ -1,9 +1,6 @@
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:restaurant_app/provider/scheduling_model.dart';
-import 'package:restaurant_app/utils/background_service.dart';
 import 'package:restaurant_app/utils/date_time_helper.dart';
 
 class OptionScreen extends StatelessWidget {

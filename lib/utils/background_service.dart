@@ -4,9 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:restaurant_app/main.dart';
 import 'package:restaurant_app/models/restaurant.dart';
-import 'package:restaurant_app/utils/date_time_helper.dart';
 import 'package:restaurant_app/utils/notification_helper.dart';
-import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tzs;
 
 final ReceivePort port = ReceivePort();
