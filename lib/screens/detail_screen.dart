@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/models/restaurant.dart';
-import 'package:restaurant_app/provider/main.dart';
+import 'package:restaurant_app/provider/restaurant_model.dart';
 
 class DetailScreen extends StatelessWidget {
   static const routeName = '/detail';
 
   final Restaurant restaurant;
+  final Restaurant? restaurantNotification;
 
-  const DetailScreen({Key? key, required this.restaurant}) : super(key: key);
+  const DetailScreen(
+      {super.key, required this.restaurant, this.restaurantNotification});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ContextModel>(
-      builder: (context, value, child) => value
-              .detailRestaurantModel.isDetailRestaurantFetching
+    if (restaurantNotification != null) {
+      context.read<RestaurantModel>().getRestaurantDetail(
+            restaurantNotification!.id,
+          );
+    } else {
+      context.read<RestaurantModel>().getRestaurantDetail(
+            restaurant.id,
+          );
+    }
+    return Consumer<RestaurantModel>(
+      builder: (context, value, child) => value.isFetching
           ? const Center(child: CircularProgressIndicator())
           : Material(
               child: NestedScrollView(
@@ -31,7 +41,7 @@ class DetailScreen extends StatelessWidget {
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image: NetworkImage(
-                                    'https://restaurant-api.dicoding.dev/images/large/${value.detailRestaurantModel.detailRestaurant.pictureId}',
+                                    'https://restaurant-api.dicoding.dev/images/large/${value.detailRestaurant.pictureId}',
                                   ),
                                   fit: BoxFit.cover,
                                   onError: (exception, stackTrace) =>
@@ -89,8 +99,7 @@ class DetailScreen extends StatelessWidget {
                                           );
                                         },
                                         icon: value.isFavorite(
-                                          value.detailRestaurantModel
-                                              .detailRestaurant.id,
+                                          value.detailRestaurant.id,
                                         )
                                             ? const Icon(
                                                 Icons.favorite,
@@ -109,7 +118,7 @@ class DetailScreen extends StatelessWidget {
                           ],
                         ),
                         title: Text(
-                          value.detailRestaurantModel.detailRestaurant.name,
+                          value.detailRestaurant.name,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -136,7 +145,7 @@ class DetailScreen extends StatelessWidget {
                           Container(
                             margin: const EdgeInsets.only(top: 10),
                             child: Text(
-                              value.detailRestaurantModel.detailRestaurant.name,
+                              value.detailRestaurant.name,
                               style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -148,7 +157,7 @@ class DetailScreen extends StatelessWidget {
                           Container(
                             margin: const EdgeInsets.only(bottom: 20),
                             child: Text(
-                              value.detailRestaurantModel.detailRestaurant.city,
+                              value.detailRestaurant.city,
                               style: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.grey,
@@ -168,9 +177,7 @@ class DetailScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 5),
                                 Text(
-                                  value.detailRestaurantModel.detailRestaurant
-                                      .rating
-                                      .toString(),
+                                  value.detailRestaurant.rating.toString(),
                                   style: const TextStyle(
                                     fontSize: 16,
                                     color: Colors.grey,
@@ -183,8 +190,7 @@ class DetailScreen extends StatelessWidget {
                           Container(
                             margin: const EdgeInsets.only(bottom: 20),
                             child: Text(
-                              value.detailRestaurantModel.detailRestaurant
-                                  .description,
+                              value.detailRestaurant.description,
                               style: const TextStyle(
                                 fontSize: 16,
                               ),
@@ -209,7 +215,7 @@ class DetailScreen extends StatelessWidget {
                                   height: 100,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: value.detailRestaurantModel
+                                    itemCount: value
                                         .detailRestaurant.menus.foods.length,
                                     itemBuilder: (context, index) {
                                       return Column(
@@ -252,7 +258,6 @@ class DetailScreen extends StatelessWidget {
                                                     const SizedBox(height: 10),
                                                     Text(
                                                       value
-                                                          .detailRestaurantModel
                                                           .detailRestaurant
                                                           .menus
                                                           .foods[index]
@@ -279,7 +284,7 @@ class DetailScreen extends StatelessWidget {
                                   height: 100,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: value.detailRestaurantModel
+                                    itemCount: value
                                         .detailRestaurant.menus.drinks.length,
                                     itemBuilder: (context, index) {
                                       return Column(
@@ -319,7 +324,6 @@ class DetailScreen extends StatelessWidget {
                                                     const SizedBox(height: 10),
                                                     Text(
                                                       value
-                                                          .detailRestaurantModel
                                                           .detailRestaurant
                                                           .menus
                                                           .drinks[index]
@@ -363,11 +367,8 @@ class DetailScreen extends StatelessWidget {
                                   height: 125,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: value
-                                        .detailRestaurantModel
-                                        .detailRestaurant
-                                        .customerReviews
-                                        .length,
+                                    itemCount: value.detailRestaurant
+                                        .customerReviews.length,
                                     itemBuilder: (context, index) {
                                       return Column(
                                         children: [
@@ -390,7 +391,6 @@ class DetailScreen extends StatelessWidget {
                                                     const SizedBox(height: 10),
                                                     Text(
                                                       value
-                                                          .detailRestaurantModel
                                                           .detailRestaurant
                                                           .customerReviews[
                                                               index]
@@ -408,7 +408,6 @@ class DetailScreen extends StatelessWidget {
                                                     Flexible(
                                                       child: Text(
                                                         value
-                                                            .detailRestaurantModel
                                                             .detailRestaurant
                                                             .customerReviews[
                                                                 index]
@@ -425,7 +424,6 @@ class DetailScreen extends StatelessWidget {
                                                     Flexible(
                                                       child: Text(
                                                         value
-                                                            .detailRestaurantModel
                                                             .detailRestaurant
                                                             .customerReviews[
                                                                 index]

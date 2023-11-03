@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/models/restaurant.dart';
-import 'package:restaurant_app/provider/main.dart';
+import 'package:restaurant_app/provider/restaurant_model.dart';
 import 'package:restaurant_app/screens/detail_screen.dart';
 
 class RestaurantCard extends StatelessWidget {
@@ -13,22 +13,22 @@ class RestaurantCard extends StatelessWidget {
   final Restaurant restaurant;
 
   const RestaurantCard({
-    Key? key,
+    super.key,
     required this.id,
     required this.name,
     required this.city,
     required this.rating,
     required this.pictureId,
     required this.restaurant,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ContextModel>(
+    return Consumer<RestaurantModel>(
       builder: (context, value, child) {
         return InkWell(
-          onTap: () {
-            context.read<ContextModel>().getDetailRestaurant(id);
+          onTap: () async {
+            context.read<RestaurantModel>().getRestaurantDetail(id);
             Navigator.pushNamed(
               context,
               DetailScreen.routeName,
