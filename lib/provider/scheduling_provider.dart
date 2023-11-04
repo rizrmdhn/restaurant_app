@@ -4,12 +4,12 @@ import 'package:restaurant_app/utils/background_service.dart';
 import 'package:restaurant_app/utils/date_time_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SchedulingModel extends ChangeNotifier {
+class SchedulingProvider extends ChangeNotifier {
   bool _isScheduled = false;
 
   bool get isScheduled => _isScheduled;
 
-  SchedulingModel() {
+  SchedulingProvider() {
     getScheduling();
   }
 

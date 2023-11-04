@@ -8,7 +8,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:sqflite/sqflite.dart';
 
-class RestaurantModel extends ChangeNotifier {
+class RestaurantProvider extends ChangeNotifier {
   List<Restaurant> _restaurants = [];
   bool _isFetching = false;
   late DetailRestaurant _detailRestaurant;
@@ -19,7 +19,7 @@ class RestaurantModel extends ChangeNotifier {
   bool get isFetching => _isFetching;
   DetailRestaurant get detailRestaurant => _detailRestaurant;
 
-  RestaurantModel() {
+  RestaurantProvider() {
     // initialize detail restaurant
     getRestaurant(http.Client());
     getFavorite();

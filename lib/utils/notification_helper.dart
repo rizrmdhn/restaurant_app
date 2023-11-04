@@ -4,7 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:restaurant_app/components/navigation.dart';
 import 'package:restaurant_app/models/restaurant.dart';
 import 'package:restaurant_app/models/restaurant_notifiaction.dart';
-import 'package:restaurant_app/provider/restaurant_model.dart';
+import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:restaurant_app/utils/received_notification.dart';
 
@@ -89,8 +89,8 @@ class NotificationHelper {
   }
 
   void configureSelectNotificationSubject(String route) {
-    final RestaurantModel restaurantModel = RestaurantModel();
-    final Navigation navigation = Navigation(restaurantModel);
+    final RestaurantProvider restaurantProvider = RestaurantProvider();
+    final Navigation navigation = Navigation(restaurantProvider);
     selectNotificationSubject.stream.listen(
       (String payload) async {
         var data = RestaurantNotification.fromJson(json.decode(payload));

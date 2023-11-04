@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/components/restaurant_list.dart';
-import 'package:restaurant_app/provider/restaurant_model.dart';
+import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/screens/favorite_screen.dart';
 import 'package:restaurant_app/screens/option_screen.dart';
 import 'package:restaurant_app/utils/debouncer.dart';
@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<RestaurantModel>(
+    return Consumer<RestaurantProvider>(
       builder: (context, value, child) => Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -107,14 +107,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           onChanged: (value) async {
                             if (value.isEmpty) {
                               // search restaurant by name
-                              Provider.of<RestaurantModel>(context,
+                              Provider.of<RestaurantProvider>(context,
                                       listen: false)
                                   .searchRestaurantByName(http.Client(), value);
                             } else {
                               // add timeout to prevent too many request
                               debouncer.run(() {
                                 // search restaurant by name
-                                Provider.of<RestaurantModel>(context,
+                                Provider.of<RestaurantProvider>(context,
                                         listen: false)
                                     .searchRestaurantByName(
                                         http.Client(), value);
@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   );
                                 }
                                 // search restaurant by name
-                                Provider.of<RestaurantModel>(context,
+                                Provider.of<RestaurantProvider>(context,
                                         listen: false)
                                     .searchRestaurantByName(
                                   http.Client(),

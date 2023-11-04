@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/models/restaurant.dart';
-import 'package:restaurant_app/provider/restaurant_model.dart';
+import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/screens/detail_screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -25,11 +25,11 @@ class RestaurantCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<RestaurantModel>(
+    return Consumer<RestaurantProvider>(
       builder: (context, value, child) {
         return InkWell(
           onTap: () async {
-            context.read<RestaurantModel>().getRestaurantDetail(
+            context.read<RestaurantProvider>().getRestaurantDetail(
                   http.Client(),
                   id,
                 );

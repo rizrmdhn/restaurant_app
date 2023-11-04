@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/provider/restaurant_model.dart';
+import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:http/http.dart' as http;
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class Navigation {
-  final RestaurantModel restaurantModel;
+  final RestaurantProvider restaurantProvider;
 
-  Navigation(this.restaurantModel);
+  Navigation(this.restaurantProvider);
 // Instance member 'navigateToDetailScreen' can't be accessed using static access.
   void navigateToDetailScreen(route, String id) async {
-    restaurantModel.getRestaurantDetail(http.Client(), id);
+    restaurantProvider.getRestaurantDetail(http.Client(), id);
     navigatorKey.currentState!.pushNamed(route);
   }
 

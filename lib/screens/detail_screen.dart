@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app/provider/restaurant_model.dart';
+import 'package:restaurant_app/provider/restaurant_provider.dart';
 
 class DetailScreen extends StatelessWidget {
   static const routeName = '/detail';
@@ -9,7 +9,7 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<RestaurantModel>(
+    return Consumer<RestaurantProvider>(
       builder: (context, value, child) => value.isFetching
           ? const Center(child: CircularProgressIndicator())
           : Material(

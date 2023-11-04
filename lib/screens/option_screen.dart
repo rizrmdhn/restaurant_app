@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app/provider/scheduling_model.dart';
+import 'package:restaurant_app/provider/scheduling_provider.dart';
 
 class OptionScreen extends StatelessWidget {
   static const routeName = '/option';
@@ -9,8 +9,8 @@ class OptionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SchedulingModel>(
-      builder: (context, SchedulingModel provider, child) => Scaffold(
+    return Consumer<SchedulingProvider>(
+      builder: (context, SchedulingProvider provider, child) => Scaffold(
         appBar: AppBar(
           title: const Text(
             'Option',

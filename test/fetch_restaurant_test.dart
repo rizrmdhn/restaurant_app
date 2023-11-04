@@ -4,7 +4,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:restaurant_app/models/detail_restaurant.dart';
 import 'package:restaurant_app/models/restaurant.dart';
-import 'package:restaurant_app/provider/restaurant_model.dart';
+import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'fetch_restaurant_test.mocks.dart';
@@ -21,7 +21,7 @@ void main() {
         'returns a list of restaurants if the http call completes successfully',
         () async {
       final client = MockClient();
-      final restaurantModel = RestaurantModel();
+      final restaurantProvider = RestaurantProvider();
 
       var dummyResponse = '''
       {
@@ -53,7 +53,7 @@ void main() {
           .thenAnswer((_) async => http.Response(dummyResponse, 200));
 
       expect(
-        restaurantModel.getRestaurant(client),
+        restaurantProvider.getRestaurant(client),
         isA<Future<List<Restaurant>>>(),
       );
     });
@@ -64,7 +64,7 @@ void main() {
         'returns a list of restaurants if the http call completes successfully',
         () async {
       final client = MockClient();
-      final restaurantModel = RestaurantModel();
+      final restaurantProvider = RestaurantProvider();
 
       var dummyResponse = '''
       {
@@ -254,7 +254,7 @@ void main() {
           .thenAnswer((_) async => http.Response(dummyResponse, 200));
 
       expect(
-        restaurantModel.getRestaurantDetail(client, 'rqdv5juczeskfw1e867'),
+        restaurantProvider.getRestaurantDetail(client, 'rqdv5juczeskfw1e867'),
         isA<Future<DetailRestaurant?>>(),
       );
     });
@@ -265,7 +265,7 @@ void main() {
         'returns a list of restaurants if the http call completes successfully',
         () async {
       final client = MockClient();
-      final restaurantModel = RestaurantModel();
+      final restaurantProvider = RestaurantProvider();
 
       var dummyResponse = '''
       {
@@ -288,7 +288,7 @@ void main() {
           .thenAnswer((_) async => http.Response(dummyResponse, 200));
 
       expect(
-        restaurantModel.searchRestaurantByName(client, 'Kafe Kita'),
+        restaurantProvider.searchRestaurantByName(client, 'Kafe Kita'),
         isA<Future<List<Restaurant>>>(),
       );
     });

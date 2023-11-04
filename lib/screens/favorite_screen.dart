@@ -3,8 +3,9 @@ import 'package:restaurant_app/components/favorite_restaurant_list.dart';
 
 class FavoriteScreen extends StatelessWidget {
   static const routeName = '/favorite';
+  final String? connectionStatus;
 
-  const FavoriteScreen({super.key});
+  const FavoriteScreen({super.key, this.connectionStatus});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +16,11 @@ class FavoriteScreen extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: const Center(
-        child: FavoriteRestaurantList(),
-      ),
+      body: connectionStatus == 'ConnectivityResult.none'
+          ? const Center(
+              child: Text('No Internet Connection'),
+            )
+          : const FavoriteRestaurantList(),
     );
   }
 }
