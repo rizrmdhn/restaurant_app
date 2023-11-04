@@ -5,6 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:restaurant_app/models/detail_restaurant.dart';
 import 'package:restaurant_app/models/restaurant.dart';
 import 'package:restaurant_app/provider/restaurant_model.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'fetch_restaurant_test.mocks.dart';
 
@@ -12,6 +13,9 @@ import 'fetch_restaurant_test.mocks.dart';
 // Create new instances of this class in each test.
 @GenerateMocks([http.Client])
 void main() {
+  sqfliteFfiInit();
+
+  databaseFactory = databaseFactoryFfi;
   group('fetch restaurants', () {
     test(
         'returns a list of restaurants if the http call completes successfully',

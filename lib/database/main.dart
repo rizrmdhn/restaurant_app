@@ -13,7 +13,7 @@ Future<Database> _initDb() async {
     '$path/restaurant.db',
     onCreate: (db, version) async {
       await db.execute('''CREATE TABLE favorite (
-            id TEXT PRIMARY KEY,
+            id TEXT PRIMARY KEY
           )''');
     },
     version: 1,

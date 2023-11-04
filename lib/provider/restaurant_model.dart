@@ -21,13 +21,12 @@ class RestaurantModel extends ChangeNotifier {
 
   RestaurantModel() {
     // initialize detail restaurant
-
     getRestaurant(http.Client());
     getFavorite();
-    initStateDetilRestaurant();
+    initStateDetailRestaurant();
   }
 
-  void initStateDetilRestaurant() {
+  void initStateDetailRestaurant() {
     _detailRestaurant = DetailRestaurant(
       id: '',
       name: '',

@@ -17,11 +17,15 @@ import 'package:restaurant_app/screens/option_screen.dart';
 import 'package:restaurant_app/utils/background_service.dart';
 import 'package:restaurant_app/utils/notification_helper.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
+  // Sqflite
+  sqfliteFfiInit();
+
   WidgetsFlutterBinding.ensureInitialized();
   tz.initializeTimeZones();
 
