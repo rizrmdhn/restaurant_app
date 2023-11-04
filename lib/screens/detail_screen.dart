@@ -23,21 +23,27 @@ class DetailScreen extends StatelessWidget {
                         // add favorite button in image background
                         background: Stack(
                           children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                    'https://restaurant-api.dicoding.dev/images/large/${value.detailRestaurant.pictureId}',
-                                  ),
-                                  fit: BoxFit.cover,
-                                  onError: (exception, stackTrace) =>
-                                      const Icon(
+                            Image.network(
+                              'https://restaurant-api.dicoding.dev/images/medium/${value.detailRestaurant.pictureId}',
+                              fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                }
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              },
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Center(
+                                  child: Icon(
                                     Icons.error,
-                                    color: Colors.white,
-                                    size: 50,
+                                    color: Colors.grey,
                                   ),
-                                ),
-                              ),
+                                );
+                              },
                             ),
                             Positioned(
                               bottom: 0,

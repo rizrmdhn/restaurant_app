@@ -56,6 +56,14 @@ class RestaurantCard extends StatelessWidget {
                       height: 95,
                       width: 125,
                       fit: BoxFit.fill,
+                      loadingBuilder: (ctx, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
                       errorBuilder: (ctx, error, _) =>
                           const Center(child: Icon(Icons.error)),
                     ),
