@@ -62,13 +62,14 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             Row(
               children: [
+                // this expanded when the keyboard is open will be scrollable
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.only(
-                      top: 20,
+                      top: 15,
                       left: 20,
                       right: 20,
-                      bottom: 20,
+                      bottom: 10,
                     ),
                     decoration: const BoxDecoration(
                       color: Colors.white,
@@ -85,14 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Restaurant',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 24,
-                              ),
-                            ),
-                            Text(
-                              'Recommendation Restaurant For You',
+                              'Find your favorite restaurant',
                               style: TextStyle(
                                 color: Colors.grey,
                                 fontSize: 16,
@@ -102,62 +96,67 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const SizedBox(height: 10),
                         // container for search bar
-                        TextField(
-                          controller: searchRestaurantController,
-                          onChanged: (value) async {
-                            if (value.isEmpty) {
-                              // search restaurant by name
-                              Provider.of<RestaurantProvider>(context,
-                                      listen: false)
-                                  .searchRestaurantByName(http.Client(), value);
-                            } else {
-                              // add timeout to prevent too many request
-                              debouncer.run(() {
+                        SizedBox(
+                          height: 50,
+                          child: TextField(
+                            controller: searchRestaurantController,
+                            onChanged: (value) async {
+                              if (value.isEmpty) {
                                 // search restaurant by name
                                 Provider.of<RestaurantProvider>(context,
                                         listen: false)
                                     .searchRestaurantByName(
                                         http.Client(), value);
-                              });
-                            }
-                          },
-                          decoration: InputDecoration(
-                            hintText: 'Search Restaurant',
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                var name = searchRestaurantController.text;
-                                if (name.isEmpty) {
-                                  // alert dialog
-                                  throw showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      title: const Text('Warning'),
-                                      content: const Text(
-                                        'Please input restaurant name',
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text('OK'),
+                              } else {
+                                // add timeout to prevent too many request
+                                debouncer.run(() {
+                                  // search restaurant by name
+                                  Provider.of<RestaurantProvider>(context,
+                                          listen: false)
+                                      .searchRestaurantByName(
+                                          http.Client(), value);
+                                });
+                              }
+                            },
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(10),
+                              hintText: 'Search Restaurant',
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  var name = searchRestaurantController.text;
+                                  if (name.isEmpty) {
+                                    // alert dialog
+                                    throw showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: const Text('Warning'),
+                                        content: const Text(
+                                          'Please input restaurant name',
                                         ),
-                                      ],
-                                    ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('OK'),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                  // search restaurant by name
+                                  Provider.of<RestaurantProvider>(context,
+                                          listen: false)
+                                      .searchRestaurantByName(
+                                    http.Client(),
+                                    name,
                                   );
-                                }
-                                // search restaurant by name
-                                Provider.of<RestaurantProvider>(context,
-                                        listen: false)
-                                    .searchRestaurantByName(
-                                  http.Client(),
-                                  name,
-                                );
-                              },
-                              icon: const Icon(Icons.search),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                                },
+                                icon: const Icon(Icons.search),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
                           ),
                         ),
